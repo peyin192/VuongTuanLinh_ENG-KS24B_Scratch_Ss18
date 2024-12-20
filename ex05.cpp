@@ -36,7 +36,7 @@ int main(void) {
         printf("ID \t Ten \t\t Tuoi \t SDT\n");
 
         for (int i = 0; i < 5; i++) {
-            printf("%d \t %-15s \t %-5d \t %-15s\n", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
+            printf("%d \t \t \t \n", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
         }
     } else {
         printf("Khong tim thay thong tin sinh vien\n");
@@ -82,7 +82,7 @@ int main(void) {
         printf("ID \t Ten \t\t Tuoi \t SDT\n");
 
         for (int i = 0; i < 5; i++) {
-            printf("%d \t %-15s \t %-5d \t %-15s\n", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
+            printf("%d \t \t \t\n", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
         }
     } else {
         printf("Khong tim thay thong tin sinh vien\n");
