@@ -30,11 +30,11 @@ int main(void) {
     }
 
     printf("\nDanh sach sinh vien:\n");
-    printf("ID \t Ten \t\t Tuoi \t SDT\n");
-    printf("-----------------------------------------\n");
+    printf("ID \t Ten \t Tuoi \t SDT\n");
+
 
     for (int i = 0; i < 5; i++) {
-        printf("%d \t %-15s \t %-5d \t %-15s\n", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
+        printf("%d \t \t \t", arrSv[i].id, arrSv[i].name, arrSv[i].age, arrSv[i].phoneNumber);
     }
 
     return 0;
