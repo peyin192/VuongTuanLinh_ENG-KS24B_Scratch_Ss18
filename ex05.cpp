@@ -10,7 +10,7 @@ struct SinhVien {
 
 typedef struct SinhVien sv;
 
-int main(void) {
+int main() {
     sv arrSv[50] = {
         {1, "Nguyen Van A", 18, "0987654320"},
         {2, "Nguyen Van B", 19, "0987654321"},
