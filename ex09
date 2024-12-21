@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_MENU_SIZE 100
+
+struct Dish {
+    int id;
+    char name[50];
+    float price;
+};
+
+struct Dish menu[MAX_MENU_SIZE] = {
+    {1, "Pho", 50.5},
+    {2, "Banh Mi", 20.0},
+    {3, "Com tam", 30.5},
+    {4, "Goi cuon", 15.0},
+    {5, "Hu tieu", 40.0}
+};
+
+void displayMenu(struct Dish menu[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("ID: %d, Name: %s, Price: %.2f\n", menu[i].id, menu[i].name, menu[i].price);
+    }
+}
+
+void insertDish(struct Dish menu[], int *n, int pos) {
+    if (pos < 0 || pos > *n) return;
+    
+    scanf("%d", &menu[*n].id);
+    getchar();
+    fgets(menu[*n].name, sizeof(menu[*n].name), stdin);
+    menu[*n].name[strcspn(menu[*n].name, "\n")] = 0;
+    scanf("%f", &menu[*n].price);
+
+    for (int i = *n; i > pos; i--) menu[i] = menu[i-1];
+    (*n)++;
+}
+
+void modifyDish(struct Dish menu[], int n, int pos) {
+    if (pos < 0 || pos >= n) return;
+    
+    scanf("%d", &menu[pos].id);
+    getchar();
+    fgets(menu[pos].name, sizeof(menu[pos].name), stdin);
+    menu[pos].name[strcspn(menu[pos].name, "\n")] = 0;
+    scanf("%f", &menu[pos].price);
+}
+
+void removeDish(struct Dish menu[], int *n, int pos) {
+    if (pos < 0 || pos >= *n) return;
+
+    for (int i = pos; i < *n - 1; i++) menu[i] = menu[i+1];
+    (*n)--;
+}
+
+int compareDesc(const void *a, const void *b) {
+    struct Dish *x = (struct Dish *)a;
+    struct Dish *y = (struct Dish *)b;
+    return (x->price < y->price) - (x->price > y->price);
+}
+
+int compareAsc(const void *a, const void *b) {
+    struct Dish *x = (struct Dish *)a;
+    struct Dish *y = (struct Dish *)b;
+    return (x->price > y->price) - (x->price < y->price);
+}
+
+int linearSearch(struct Dish menu[], int n, char name[]) {
+    for (int i = 0; i < n; i++) {
+        if (strcmp(menu[i].name, name) == 0) return i;
+    }
+    return -1;
+}
+
+int binarySearch(struct Dish menu[], int n, char name[]) {
+    int left = 0, right = n - 1;
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int cmp = strcmp(menu[mid].name, name);
+        if (cmp == 0) return mid;
+        if (cmp < 0) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    int choice, count = 5;
+    while (1) {
+        printf("\nMenu\n1. View menu\n2. Add dish\n3. Edit dish\n4. Delete dish\n5. Sort menu\n6. Search dish\n7. Exit\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: displayMenu(menu, count); break;
+            case 2: {
+                int pos;
+                scanf("%d", &pos);
+                insertDish(menu, &count, pos);
+                break;
+            }
+            case 3: {
+                int pos;
+                scanf("%d", &pos);
+                modifyDish(menu, count, pos);
+                break;
+            }
+            case 4: {
+                int pos;
+                scanf("%d", &pos);
+                removeDish(menu, &count, pos);
+                break;
+            }
+            case 5: {
+                char order;
+                getchar();
+                scanf("%c", &order);
+                if (order == 'a') qsort(menu, count, sizeof(struct Dish), compareAsc);
+                if (order == 'b') qsort(menu, count, sizeof(struct Dish), compareDesc);
+                break;
+            }
+            case 6: {
+                char name[50], method;
+                getchar();
+                fgets(name, sizeof(name), stdin);
+                name[strcspn(name, "\n")] = 0;
+                getchar();
+                scanf("%c", &method);
+                int idx = (method == 'a') ? linearSearch(menu, count, name) : binarySearch(menu, count, name);
+                if (idx != -1) printf("Found at index %d, ID: %d, Name: %s, Price: %.2f\n", idx, menu[idx].id, menu[idx].name, menu[idx].price);
+                else printf("Not found\n");
+                break;
+            }
+            case 7: return 0;
+        }
+    }
+}
